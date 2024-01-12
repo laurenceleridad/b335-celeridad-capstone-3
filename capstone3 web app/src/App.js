@@ -4,6 +4,7 @@ import AppNavbar from './components/AppNavbar';
 import Home from "./pages/Home";
 import {Container} from 'react-bootstrap';
 import Register from './pages/Register';
+import Login from './pages/Login';
 
 
 
@@ -34,7 +35,7 @@ function App() {
   },[user]);
 
   useEffect(() => {
-    fetch(`http://localhost:4002/users/details`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/details`, {
       headers: {
         Authorization: `Bearer ${ localStorage.getItem('access') }`
       }
@@ -66,7 +67,7 @@ function App() {
 
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />
-             
+              <Route path="/login" element={<Login />} />
 
 
           </Routes>

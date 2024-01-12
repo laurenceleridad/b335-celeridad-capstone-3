@@ -1,6 +1,8 @@
 import {Form, Button} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2'
+
 
 export default function Register(){
 
@@ -11,6 +13,8 @@ export default function Register(){
 	const [mobileNo, setMobileNo] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
+
+	const navigate = useNavigate();
 
 	// state of the button
 	const [isActive, setIsActive] = useState(false);
@@ -40,7 +44,7 @@ export default function Register(){
 
 		event.preventDefault(); // prevents the default behavior of an event. Specifically in our case submit event, it will prevent the refresh/redirection of the page
 
-		fetch("http://localhost:4002/b2/users/", {
+		fetch(`${process.env.REACT_APP_API_URL}/users/`, {
 			method: 'POST',
 			headers: { 'Content-Type' : "application/json"},
 			body: JSON.stringify({
@@ -66,6 +70,7 @@ export default function Register(){
 				  icon: "success",
 				  title: "Registered Successfully",
 				});
+				navigate('/login');
 			} else if (data.error === "All fields must be provided") {
 	        	Swal.fire({
 					  icon: "error",
