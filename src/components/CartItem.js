@@ -6,7 +6,7 @@ const CartItem = ({ item, onRemove }) => {
     <tr>
       <td>{item.productId}</td>
       <td>{item.quantity}</td>
-      <td>${item.subtotal.toFixed(2)}</td>
+      <td>₱{item.subtotal.toFixed(2)}</td>
       <td>
         <Button variant="danger" onClick={() => onRemove(item.productId)}>
           Remove
