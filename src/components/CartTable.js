@@ -1,30 +1,33 @@
+// CartTable.jsx
 import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import Checkout from './Checkout';
 
-const CartTable = ({ cartItems, onRemove, onUpdate, onClear, setCartItems }) => {
+const CartTable = ({ cartItems, onRemove, onUpdate, onClear }) => {
   const [productDetails, setProductDetails] = useState({});
   const [checkoutMode, setCheckoutMode] = useState(false);
 
-  const fetchProductDetails = async (productId) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`);
-      const data = await response.json();
-
-      if (response.ok) {
-        setProductDetails((prevDetails) => ({
-          ...prevDetails,
-          [productId]: data.product.name,
-        }));
-      } else {
-        console.error('Failed to fetch product details');
-      }
-    } catch (error) {
-      console.error('Error fetching product details:', error);
-    }
-  };
-
   useEffect(() => {
+    // Fetch product details for each item in the cart
+    const fetchProductDetails = async (productId) => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setProductDetails((prevDetails) => ({
+            ...prevDetails,
+            [productId]: data.product.name,
+          }));
+        } else {
+          console.error(`Failed to fetch product details for productId: ${productId}`);
+        }
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    };
+
+    // Fetch details for each product in the cart
     cartItems.forEach((item) => {
       if (!productDetails[item.productId]) {
         fetchProductDetails(item.productId);
@@ -46,9 +49,9 @@ const CartTable = ({ cartItems, onRemove, onUpdate, onClear, setCartItems }) => 
     setCheckoutMode(false);
   };
 
-  const calculateTotal = (cartItems) => {
-  return cartItems.reduce((total, item) => total + item.subtotal, 0);
-};
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => total + item.subtotal, 0);
+  };
 
   return (
     <div>
@@ -107,14 +110,14 @@ const CartTable = ({ cartItems, onRemove, onUpdate, onClear, setCartItems }) => 
 
       {checkoutMode && (
         <Checkout
-          cartItems={cartItems}
+          showModal={checkoutMode}
           onCancelCheckout={handleCancelCheckout}
+          cartItems={cartItems}
         />
       )}
     </div>
   );
 };
 
-
-
 export default CartTable;
+
