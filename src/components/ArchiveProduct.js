@@ -6,13 +6,13 @@ import Swal from 'sweetalert2';
 export default function ArchiveProduct({ productId, fetchData, isActive }) {
 
 function archiveToggle(){ 
-		fetch(`${process.env.REACT_APP_API_URL}/products/${productId}/archive`, {
-			method: "PATCH",
-			headers: {
-				Authorization: `Bearer ${ localStorage.getItem('access') }`
-			}
-		})
-	      .then((res) => res.json())
+    fetch(`${process.env.REACT_APP_API_URL}/products/${productId}/archive`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${ localStorage.getItem('access') }`
+      }
+    })
+        .then((res) => res.json())
           .then((data) => {
             console.log(data);
             fetchData();
@@ -32,17 +32,17 @@ function archiveToggle(){
               text: 'An error occurred. Please try again.',
             });
           });
-	  }
+    }
 
-	function activateToggle(){ 
+  function activateToggle(){ 
 
-		fetch(`${process.env.REACT_APP_API_URL}/products/${productId}/activate`, {
-			method: "PATCH",
-			headers: {
-				Authorization: `Bearer ${ localStorage.getItem('access') }`
-			}
-		})
-	      .then((res) => res.json())
+    fetch(`${process.env.REACT_APP_API_URL}/products/${productId}/activate`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${ localStorage.getItem('access') }`
+      }
+    })
+        .then((res) => res.json())
           .then((data) => {
             console.log(data);
             fetchData();
@@ -62,9 +62,9 @@ function archiveToggle(){
               text: 'An error occurred. Please try again.',
             });
           });
-	  }
+    }
 
-	   return (
+     return (
         <>
       {isActive ? (
         <Button variant="danger" size="sm" onClick={archiveToggle}>
@@ -79,6 +79,6 @@ function archiveToggle(){
   );
  }
 
-	
+  
 
 

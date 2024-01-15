@@ -67,7 +67,7 @@ const CheckoutModal = ({ showModal, onCancelCheckout, cartItems }) => {
           text: 'Thank you for shopping with us.',
         }).then(() => {
           // Redirect to a success page or any other desired route
-          navigate('/order-success');
+          navigate('/orders');
         });
       } else {
         // Handle error, show error message

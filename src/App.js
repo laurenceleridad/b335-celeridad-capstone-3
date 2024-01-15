@@ -13,6 +13,7 @@ import ProductView from './pages/ProductView';
 import AddToCart from './pages/AddToCart';
 import AddProduct from './pages/AddProduct';
 import CartPage from './pages/CartPage';
+import Order from './pages/Order'
 import Error from './pages/Error';
 
 
@@ -88,6 +89,7 @@ function App() {
               <Route path ="/add-to-cart" element={<AddToCart />} />
               <Route path ="/addProduct" element={<AddProduct />} />
               <Route path ="/cart" element={<CartPage />} />
+              <Route path ="/orders" element={<Order />} />
 
               <Route path="*" element={<Error />} />
 
