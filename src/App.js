@@ -8,10 +8,11 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Products from './pages/Products'
-import Profile from './pages/Profile'
-import ProductView from './pages/ProductView'
-import AddToCart from './pages/AddToCart'
+import Profile from './pages/Profile';
+import ProductView from './pages/ProductView';
+import AddToCart from './pages/AddToCart';
 import AddProduct from './pages/AddProduct';
+import CartPage from './pages/CartPage';
 import Error from './pages/Error';
 
 
@@ -83,9 +84,10 @@ function App() {
               <Route path ="/logout" element={<Logout />} />
               <Route path ="/products" element={<Products />} />
               <Route path ="/profile" element={<Profile />} />
-              <Route path ="/addProduct" element={<AddProduct />} />
               <Route path ="/products/:productId" element={<ProductView />} />
               <Route path ="/add-to-cart" element={<AddToCart />} />
+              <Route path ="/addProduct" element={<AddProduct />} />
+              <Route path ="/cart" element={<CartPage />} />
 
               <Route path="*" element={<Error />} />
 
