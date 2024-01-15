@@ -11,6 +11,7 @@ import Products from './pages/Products'
 import Profile from './pages/Profile'
 import ProductView from './pages/ProductView'
 import AddToCart from './pages/AddToCart'
+import AddProduct from './pages/AddProduct';
 import Error from './pages/Error';
 
 
@@ -82,6 +83,7 @@ function App() {
               <Route path ="/logout" element={<Logout />} />
               <Route path ="/products" element={<Products />} />
               <Route path ="/profile" element={<Profile />} />
+              <Route path ="/addProduct" element={<AddProduct />} />
               <Route path ="/products/:productId" element={<ProductView />} />
               <Route path ="/add-to-cart" element={<AddToCart />} />
 
