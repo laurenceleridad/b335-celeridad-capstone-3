@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import UserContext from '../UserContext';
+
 
 export default function ProductView() {
   const { productId } = useParams();
@@ -9,6 +11,7 @@ export default function ProductView() {
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const imagePath = `/images/${productId}.png`;
+  const { user } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -47,9 +50,15 @@ export default function ProductView() {
               <Card.Subtitle>Price:</Card.Subtitle>
               <Card.Text>PhP {price}</Card.Text>
 
-              <Button variant="primary" block="true" onClick={handleBuyClick}>
-                Buy
-              </Button>
+              {user.id !== null ? (
+                <Button variant="primary" block="true" onClick={handleBuyClick}>
+                  Buy 
+                </Button>
+              ) : (
+                <Link className="btn btn-danger btn-block" to="/login">
+                  Login to buy
+                </Link>
+              )}
             </Card.Body>
           </Card>
         </Col>
