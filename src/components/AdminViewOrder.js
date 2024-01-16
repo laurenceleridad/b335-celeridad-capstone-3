@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import '../App.css'; // Create a CSS file (AdminViewOrder.css) for styling
 
 const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
   const [productDetails, setProductDetails] = useState({});
   const [allOrders, setAllOrders] = useState([]);
-  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
     setAllOrders(Array.isArray(ordersData.allOrder) ? ordersData.allOrder : []);
   }, [ordersData]);
 
-
-   useEffect(() => {
+  useEffect(() => {
     // Fetch product details for each product in each order
     const fetchProductDetails = async (productId) => {
       try {
@@ -48,15 +47,14 @@ const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
     }
   }, [ordersData, productDetails]);
 
-
   return (
-    <div>
+    <div className="table-container">
       <h1>All Orders</h1>
       <table className="order-table">
         <thead>
           <tr>
             <th>Order ID</th>
-            <th>User Email</th>
+            <th>User ID</th>
             <th>Total Price</th>
             <th>Products Ordered</th>
             <th>Status</th>
@@ -68,13 +66,13 @@ const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
             allOrders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.userEmail}</td>
+                <td>{order.userId}</td>
                 <td>₱{order.totalPrice.toFixed(2)}</td>
                 <td>
                   <ul>
                     {order.productsOrdered.map((product) => (
                       <li key={product._id}>
-                        {product.productId} - Quantity: {product.quantity} - Subtotal: ₱{product.subtotal.toFixed(2)}
+                        {productDetails[product.productId]} - Quantity: {product.quantity} - Subtotal: ₱{product.subtotal.toFixed(2)}
                         <br />
                       </li>
                     ))}

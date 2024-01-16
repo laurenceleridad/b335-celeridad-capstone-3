@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 
 const SearchByPrice = ({ onSearchResults }) => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [error, setError] = useState(null);
 
   const handleSearch = () => {
+    // Reset error message
+    setError(null);
+
     if (!minPrice || !maxPrice || isNaN(minPrice) || isNaN(maxPrice)) {
-      // Handle invalid input
-      console.error('Invalid input. Both minPrice and maxPrice are required.');
+      setError('Invalid input. Both minPrice and maxPrice are required and must be valid numbers.');
       return;
     }
 
-    fetch(`${process.env.REACT_APP_API_URL}/products/SearchByPrice`, {
+    // Check if minPrice is greater than maxPrice
+    if (parseFloat(minPrice) > parseFloat(maxPrice)) {
+      setError('Invalid input. Min Price should be less than or equal to Max Price.');
+      return;
+    }
+
+    fetch(`${process.env.REACT_APP_API_URL}/products/searchByPrice`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,21 +36,19 @@ const SearchByPrice = ({ onSearchResults }) => {
       })
       .then((data) => {
         if (data.error) {
-          // Handle the case where there is an error from the backend
-          console.error('Error searching for products:', data.error);
+          setError(`Error searching for products: ${data.error}`);
         } else {
-          // Pass the search results to the parent component
           onSearchResults(data.products);
         }
       })
       .catch((error) => {
-        // Handle network errors or other exceptions
-        console.error('Error searching for products:', error);
+        setError(`Error searching for products: ${error.message}`);
       });
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: '400px' }}>
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form.Group>
         <Form.Label>Min Price:</Form.Label>
         <Form.Control
@@ -60,7 +67,7 @@ const SearchByPrice = ({ onSearchResults }) => {
           onChange={(e) => setMaxPrice(e.target.value)}
         />
       </Form.Group>
-      <Button variant="primary" onClick={handleSearch}>
+      <Button className="mt-3" variant="primary" onClick={handleSearch}>
         Search
       </Button>
     </div>

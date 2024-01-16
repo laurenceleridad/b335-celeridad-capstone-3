@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import EditProduct from './EditProduct';
 import ArchiveProduct from './ArchiveProduct';
+import AddProduct from '../pages/AddProduct'; // Import the AddProduct component
 
 export default function AdminView({ productsData, fetchData }) {
   const [products, setProducts] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false); // New state variable
 
   useEffect(() => {
     if (Array.isArray(productsData.product) && productsData.product.length > 0) {
@@ -18,11 +20,9 @@ export default function AdminView({ productsData, fetchData }) {
             {product.isActive ? 'Available' : 'Unavailable'}
           </td>
           <td>
-            {' '}
             <EditProduct product={product._id} fetchData={fetchData} />
           </td>
           <td>
-            {' '}
             <ArchiveProduct productId={product._id} fetchData={fetchData} isActive={product.isActive} />
           </td>
         </tr>
@@ -30,7 +30,6 @@ export default function AdminView({ productsData, fetchData }) {
 
       setProducts(productsArr);
     } else {
-      // Handle the case when productsData.product is not an array (optional)
       console.error('Invalid productsData:', productsData);
     }
   }, [productsData]);
@@ -38,6 +37,14 @@ export default function AdminView({ productsData, fetchData }) {
   return (
     <>
       <h1 className="text-center my-4"> Admin Dashboard</h1>
+
+      {/* Button to open AddProduct form */}
+      <Button variant="primary" className="my-3" onClick={() => setShowAddForm(true)}>
+        Add Product
+      </Button>
+
+      {/* AddProduct component */}
+      <AddProduct show={showAddForm} fetchData={fetchData} onClose={() => setShowAddForm(false)} />
 
       <Table striped bordered hover responsive>
         <thead>
