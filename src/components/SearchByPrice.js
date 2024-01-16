@@ -30,7 +30,7 @@ const SearchByPrice = ({ onSearchResults }) => {
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`Failed to fetch data: ${res.status}`);
+          throw new Error(`No products found within the specified price range.`);
         }
         return res.json();
       })

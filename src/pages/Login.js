@@ -134,7 +134,7 @@ const retrieveUserDetails = (token) => {
                 }}
               />
             </Form.Group>
-            <Button variant="primary" type="submit" id="submitBtn">
+            <Button className="mt-3" variant="primary" type="submit" id="submitBtn">
               Submit
             </Button>
           </Form>

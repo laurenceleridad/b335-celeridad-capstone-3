@@ -1,4 +1,4 @@
-import {Form, Button} from 'react-bootstrap';
+	import {Form, Button} from 'react-bootstrap';
 import {useState, useEffect, useContext} from 'react';
 import Swal from 'sweetalert2';
 import {Navigate, useNavigate	} from 'react-router-dom';
@@ -120,7 +120,7 @@ export default function Register(){
       <div className="row justify-content-center">
         <div className="col-md-6">
 		<Form onSubmit={(event) => registerUser(event)}>
-			<h1 className="my-5 text-center">Register</h1>
+			<h1 className="my-5">Register</h1>
 			<Form.Group>
 				<Form.Label>First Name: </Form.Label>
 				<Form.Control type="text" placeholder="Enter First Name" required onChange={event => {setFirstName(event.target.value)}} />
@@ -131,7 +131,7 @@ export default function Register(){
 			</Form.Group>
 			<Form.Group>
 				<Form.Label>Mobile No: </Form.Label>
-				<Form.Control type="text" placeholder="Enter MobileNo" required onChange={event => {setMobileNo(event.target.value)}} />
+				<Form.Control type="text" placeholder="Enter Mobile Number" required onChange={event => {setMobileNo(event.target.value)}} />
 			</Form.Group>
 			<Form.Group>
 				<Form.Label>Email: </Form.Label>
@@ -145,7 +145,7 @@ export default function Register(){
 				<Form.Label>Confirm Password: </Form.Label>
 				<Form.Control type="password" placeholder="Confirm Password" required onChange={event => {setConfirmPassword(event.target.value)}} />
 			</Form.Group>
-			<Button className="mt-2" variant="primary" type="submit" id="submitBtn" >Submit </Button>
+			<Button className="mt-3" variant="primary" type="submit" id="submitBtn" >Submit </Button>
 			{/*{	isActive === true ?
 				<Button variant="primary" type="submit" id="submitBtn" >Submit
 				</Button>

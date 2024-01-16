@@ -4,6 +4,7 @@ import UserContext from '../UserContext';
 import UserView from '../components/UserView';
 import AdminView from '../components/AdminView';
 import SearchByPrice from '../components/SearchByPrice';
+import { Row, Col } from 'react-bootstrap'; // Import Row and Col from react-bootstrap
 
 export default function Products() {
   const { user } = useContext(UserContext);
@@ -48,14 +49,16 @@ export default function Products() {
   }, [products]);
 
   return (
-    <>
+    <div>
       <SearchByPrice onSearchResults={handleSearchResults} />
       {searchResults.length > 0 ? (
-        <>
+        <Row xs={1} sm={2} md={3} lg={4} xl={5} className="g-4"> 
           {searchResults.map((product) => (
-            <ProductsCard key={product._id} productProp={product} />
+            <Col key={product._id} style={{ marginBottom: '1rem' }}>
+              <ProductsCard productProp={product} />
+            </Col>
           ))}
-        </>
+        </Row>
       ) : (
         <>
           {user.isAdmin === true ? (
@@ -65,6 +68,6 @@ export default function Products() {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
