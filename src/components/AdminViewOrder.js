@@ -1,16 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css'; // Create a CSS file (AdminViewOrder.css) for styling
+import { Button, Modal } from 'react-bootstrap';
+import '../App.css';
 
 const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
   const [productDetails, setProductDetails] = useState({});
   const [allOrders, setAllOrders] = useState([]);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [orderIdToUpdate, setOrderIdToUpdate] = useState(null);
+
+  const getStatusClass = (status) => {
+    return status === 'Done' ? 'text-success' : 'text-danger';
+  };
+
+  const handleUpdateStatus = (orderId) => {
+    setOrderIdToUpdate(orderId);
+    setShowConfirmationModal(true);
+  };
+
+  const confirmUpdateStatus = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${orderIdToUpdate}/update-status`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const responseData = await response.json();
+      console.log('Response from server:', responseData);
+
+      if (!response.ok) {
+        throw new Error(`Failed to update order status: ${response.status}`);
+      }
+
+      // Update the order status locally
+      setAllOrders((prevOrders) =>
+        prevOrders.map((order) => (order._id === orderIdToUpdate ? { ...order, status: 'Done' } : order))
+      );
+
+      // Close the confirmation modal
+      setShowConfirmationModal(false);
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
+  };
 
   useEffect(() => {
     setAllOrders(Array.isArray(ordersData.allOrder) ? ordersData.allOrder : []);
   }, [ordersData]);
 
   useEffect(() => {
-    // Fetch product details for each product in each order
     const fetchProductDetails = async (productId) => {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/products/${productId}`);
@@ -29,7 +69,6 @@ const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
       }
     };
 
-    // Fetch details for each product in each order
     const fetchDetailsForAllOrders = async () => {
       for (const order of ordersData.allOrder) {
         for (const product of order.productsOrdered) {
@@ -40,7 +79,6 @@ const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
       }
     };
 
-    // Check if ordersData is available before attempting to fetch details
     if (ordersData.allOrder && ordersData.allOrder.length > 0) {
       fetchDetailsForAllOrders();
       setAllOrders(ordersData.allOrder);
@@ -59,6 +97,7 @@ const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
             <th>Products Ordered</th>
             <th>Status</th>
             <th>Ordered On</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -78,17 +117,40 @@ const AdminViewOrder = ({ ordersData, fetchOrdersForAdmin }) => {
                     ))}
                   </ul>
                 </td>
-                <td>{order.status}</td>
+                <td className={getStatusClass(order.status)}>{order.status}</td>
                 <td>{new Date(order.orderedOn).toLocaleString()}</td>
+                <td>
+                  {order.status !== 'Done' && (
+                    <Button variant="success" onClick={() => handleUpdateStatus(order._id)}>
+                      Mark as Done
+                    </Button>
+                  )}
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6">No orders available</td>
+              <td colSpan="7">No orders available</td>
             </tr>
           )}
         </tbody>
       </table>
+
+      {/* Confirmation Modal */}
+      <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to mark this order as done?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowConfirmationModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={confirmUpdateStatus}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
