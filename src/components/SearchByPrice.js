@@ -48,28 +48,33 @@ const SearchByPrice = ({ onSearchResults }) => {
 
   return (
     <div style={{ maxWidth: '400px' }}>
+      <h3>Search Products by Price</h3>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Form.Group>
-        <Form.Label>Min Price:</Form.Label>
-        <Form.Control
-          type="number"
-          placeholder="Enter min price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Max Price:</Form.Label>
-        <Form.Control
-          type="number"
-          placeholder="Enter max price"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-        />
-      </Form.Group>
-      <Button className="mt-3" variant="primary" onClick={handleSearch}>
-        Search
-      </Button>
+      <Form>
+        <Form.Group controlId="minPrice">
+          <Form.Label>Min Price:</Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter min price"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="maxPrice">
+          <Form.Label>Max Price:</Form.Label>
+          <Form.Control
+            type="number"
+            placeholder="Enter max price"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+          />
+        </Form.Group>
+
+        <Button className="mt-3" variant="primary" onClick={handleSearch}>
+          Search
+        </Button>
+      </Form>
     </div>
   );
 };

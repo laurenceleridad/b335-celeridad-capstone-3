@@ -7,9 +7,9 @@ export default function AppNavbar() {
   const { user } = useContext(UserContext);
 
   return (
-    <Navbar expand="lg" className="bg-dark navbar-dark">
-      <Container fluid>
-        <Navbar.Brand as={Link} to="/">FragmanHubPH</Navbar.Brand>
+    <Navbar expand="lg" className="bg-dark navbar-dark" style={{ margin: 0, padding: 0, marginLeft: '-12px', marginRight: '-12px' }}>
+      <Container fluid style={{ margin: 0, padding: 0 }}>
+        <Navbar.Brand as={Link} to="/" style={{ marginLeft: '15px' }}>FragmanHubPH</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

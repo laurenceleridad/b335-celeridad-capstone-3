@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from 'react';
+import { Col, Row } from 'react-bootstrap';
 import ProductsCard from '../components/ProductsCard';
 import UserContext from '../UserContext';
 import UserView from '../components/UserView';
 import AdminView from '../components/AdminView';
 import SearchByPrice from '../components/SearchByPrice';
-import { Row, Col } from 'react-bootstrap'; // Import Row and Col from react-bootstrap
 
 export default function Products() {
   const { user } = useContext(UserContext);
@@ -49,25 +49,33 @@ export default function Products() {
   }, [products]);
 
   return (
-    <div>
-      <SearchByPrice onSearchResults={handleSearchResults} />
-      {searchResults.length > 0 ? (
-        <Row xs={1} sm={2} md={3} lg={4} xl={5} className="g-4"> 
-          {searchResults.map((product) => (
-            <Col key={product._id} style={{ marginBottom: '1rem' }}>
-              <ProductsCard productProp={product} />
-            </Col>
-          ))}
-        </Row>
-      ) : (
-        <>
-          {user.isAdmin === true ? (
-            <AdminView productsData={products} fetchData={fetchData} />
-          ) : (
-            <UserView productsData={products} />
-          )}
-        </>
+    <Row>
+      {/* Show search only for users */}
+      {user && (
+        <Col xs={12} md={2}>
+          <SearchByPrice onSearchResults={handleSearchResults} />
+        </Col>
       )}
-    </div>
+
+      <Col xs={12} md={user ? 10 : 12}>
+        {searchResults.length > 0 ? (
+          <Row className="g-4">
+            {searchResults.map((product) => (
+              <Col key={product._id} xs={12} sm={6} lg={4} xl={3} className="mb-3">
+                <ProductsCard key={product._id} productProp={product} />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <>
+            {user && user.isAdmin === true ? (
+              <AdminView productsData={products} fetchData={fetchData} />
+            ) : (
+              <UserView productsData={products} />
+            )}
+          </>
+        )}
+      </Col>
+    </Row>
   );
 }
