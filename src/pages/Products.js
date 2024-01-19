@@ -42,7 +42,7 @@ export default function Products() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   useEffect(() => {
     console.log(products);
@@ -50,14 +50,14 @@ export default function Products() {
 
   return (
     <Row>
-      {/* Show search only for users */}
-      {user && (
+      {/* Show search only for non-admin users */}
+      {user && !user.isAdmin && (
         <Col xs={12} md={2}>
           <SearchByPrice onSearchResults={handleSearchResults} />
         </Col>
       )}
 
-      <Col xs={12} md={user ? 10 : 12}>
+      <Col xs={12} md={user && !user.isAdmin ? 10 : 12}>
         {searchResults.length > 0 ? (
           <Row className="g-4">
             {searchResults.map((product) => (

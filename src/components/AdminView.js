@@ -36,40 +36,39 @@ export default function AdminView({ productsData, fetchData }) {
   }, [productsData]);
 
   return (
-  <>
-    <Container>
-      <h1 className="text-center mt-4 mb-2">Admin Dashboard</h1>
-
-      <Row className="justify-content-md-center">
-        <Col md="auto">
-          <Button variant="success" className="my-3 mx-2" onClick={() => setShowAddForm(true)}>
+    <Container className="mt-5 d-flex justify-content-center align-items-center">
+      <div className="text-center"> {/* Center-align content */}
+        <h1>Admin Dashboard</h1>
+  
+        <div className="my-3">
+          <Button variant="success" className="mx-2" onClick={() => setShowAddForm(true)}>
             Add Product
           </Button>
           <Link to="/orders">
-              <Button variant="success" className="my-3">
-                Go to all user Orders
-              </Button>
-            </Link>
-        </Col>
-      </Row>
-
-      <AddProduct show={showAddForm} fetchData={fetchData} onClose={() => setShowAddForm(false)} />
+            <Button variant="success" className="mx-2">
+              Go to all user Orders
+            </Button>
+          </Link>
+        </div>
+  
+        <AddProduct show={showAddForm} fetchData={fetchData} onClose={() => setShowAddForm(false)} />
+  
+        <Table striped bordered hover responsive className="mt-3">
+          <thead>
+            <tr className="text-center">
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Availability</th>
+              <th colSpan="2">Actions</th>
+            </tr>
+          </thead>
+  
+          <tbody>{products}</tbody>
+        </Table>
+      </div>
     </Container>
-
-    <Table striped bordered hover responsive>
-      <thead>
-        <tr className="text-center">
-          <th>ID</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Availability</th>
-          <th colSpan="2">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>{products}</tbody>
-    </Table>
-  </>
-);
+  );
 }
+  
