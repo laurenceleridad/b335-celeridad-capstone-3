@@ -78,7 +78,7 @@ export default function PreviewProduct({ data, breakPoint, addToCart }) {
             <tr>
               <td colSpan="2" className="text-center">
                  {user.id !== null ? (
-                <Button variant="primary" block onClick={addToCart} style={{ width: '100%' }}>
+                <Button variant="primary" block onClick={() => addToCart(quantity)} style={{ width: '100%' }}>
                   Add to Cart
                 </Button>
               ) : (

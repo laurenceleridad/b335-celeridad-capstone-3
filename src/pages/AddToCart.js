@@ -16,7 +16,7 @@ export default function AddToCart() {
   const imagePath = `/images/${product ? product.productId : '65799ecaee2e7bc8d688f308'}.png`;
   const navigate = useNavigate();
 
-  const addToCart = () => {
+  const addToCart = (quantity) => {
     if (!product || !product.productId) {
       console.error('Product or product ID is null');
       return;
